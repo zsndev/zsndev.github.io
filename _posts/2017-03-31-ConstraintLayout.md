@@ -17,13 +17,13 @@ ConstraintLayout靠Constraints来组织view，其内的view hierarchy只有一�
 2. guideline有 android:orientation="vertical/horizontal" 两种模式，vertical时有左右锚点，horizontal时有上下锚点
 
 ### Guideline
-guideline是view的子类，只不过宽高为0，visibility为gone，只是为了布局提供瞄点而存在。guideline可以以**绝对值**或**百分比**的方式放置位置
+guideline是view的子类，只不过宽高为0，visibility为gone，只是为了布局提供瞄点而存在。guideline可以以**绝对值**或**百分比**的方式放置位置<br/>
 **绝对值**：
 ```
 layout_constraintGuide_begin
 layout_constraintGuide_end
 ```
-**百分比**
+**百分比**<br/>
 `layout_constraintGuide_Percent`
 
 ### Xml Format
@@ -88,7 +88,7 @@ layout_constraintDimensionRatio = "floatValue[width/height]"
 ```
 
 ### Visibility behavior
-![](/images/posts/android/constraint_visibility.png)
+![](/images/android/constraint_visibility.png)<br/>
 **Margins when connected to a GONE widget**
 When a position constraint target's visibility is View.GONE, you can also indicates a different margin value to be used using the following attributes:
 * layout_goneMarginStart
@@ -100,15 +100,15 @@ When a position constraint target's visibility is View.GONE, you can also indica
 
 ### Chains
 两个互相链接的view产生一个chain
-![](/images/posts/android/constraint_chain.png)
+![](/images/android/constraint_chain.png)<br/>
 Chains are controlled by attributes set on chain head: the head is the left-most widget for horizontal chains, and the top-most widget for vertical chains.
-![](/images/posts/android/constraint_chain_head.png)
+![](/images/android/constraint_chain_head.png)<br/>
 
 **Chain Style**
 * layout_constraintHorizontal_chainStyle
 * layout_constraintVertical_chainStyle
 给chain设置不同的chain_style后，chain的行为会有不同的表现 (默认**CHAIN_SPREAD**)
-![](/images/posts/android/constraint_chain_style.png)
+![](/images/android/constraint_chain_style.png)<br/>
 
 **Weighted chains**
 chain默认平分可用空间，*layout_constraintHorizontal_weight* 和*layout_constraintVertical_weight* 以正比的关系分配剩余空间的比例。
