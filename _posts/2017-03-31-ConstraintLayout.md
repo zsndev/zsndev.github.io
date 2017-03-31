@@ -57,7 +57,9 @@ tools:layout_editor_absoluteY
 保存当前状态，帮助视图编辑器绘制预览
 
 **Inference**
-```tools:layout_constraint[Anchor]_creator```
+```
+tools:layout_constraint[Anchor]_creator
+```
 帮助视图编辑器区分哪些constraints是手动添加的，哪些是通过inference自动添加的
 
 ### View Measurements
