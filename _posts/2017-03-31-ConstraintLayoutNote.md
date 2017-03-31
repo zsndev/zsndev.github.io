@@ -24,7 +24,9 @@ layout_constraintGuide_begin
 layout_constraintGuide_end
 ```
 **百分比**
-```layout_constraintGuide_Percent```
+```
+layout_constraintGuide_Percent
+```
 
 ### Xml Format
 ```html
