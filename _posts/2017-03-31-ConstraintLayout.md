@@ -23,13 +23,13 @@ guideline是view的子类，只不过宽高为0，visibility为gone，只是为�
 layout_constraintGuide_begin
 layout_constraintGuide_end
 ```
-**百分比**<br/>
-`layout_constraintGuide_Percent`
+**百分比**
+```layout_constraintGuide_Percent```
 
 ### Xml Format
-`layout_constraint[SourceAnchor]_[TargetAnchor]="[TargetId]"`
-
 ```html
+layout_constraint[SourceAnchor]_[TargetAnchor]="[TargetId]"
+
 <Button
   android:id="@+id/button_cancel"
   …​ />
@@ -46,7 +46,7 @@ layout_constraintHorizontal_bias
 layout_constraintVertical_bias
 ```
 
-`app:layout_constraintVertical_bias="0.25"`Now the view is weighted with a 25/75 split of the available space on each axis.Technically, when no bias constraint is present, the bias is 0.5.
+**app:layout_constraintVertical_bias="0.25"**Now the view is weighted with a 25/75 split of the available space on each axis.Technically, when no bias constraint is present, the bias is 0.5.
 
 ### 视图编辑器自动生成的属性
 **Autoconnect**
@@ -57,7 +57,7 @@ tools:layout_editor_absoluteY
 保存当前状态，帮助视图编辑器绘制预览
 
 **Inference**
-`tools:layout_constraint[Anchor]_creator`
+```tools:layout_constraint[Anchor]_creator```
 帮助视图编辑器区分哪些constraints是手动添加的，哪些是通过inference自动添加的
 
 ### View Measurements
@@ -65,15 +65,14 @@ tools:layout_editor_absoluteY
 * Wrap Content
 * Any Size (Measure to fill the available space for the attached constraints, Set layout_width or layout_height to 0dp)
 
-`android:minWidth / android:minHeight`  will be used by ConstraintLayout when its dimensions are set to WRAP_CONTENT.
+**android:minWidth / android:minHeight** will be used by ConstraintLayout when its dimensions are set to WRAP_CONTENT.
 
 ### Ratio
 ```
 layout_constraintDimensionRatio = "width:height"
 layout_constraintDimensionRatio = "H,width:height" //H/W为需要动态调整的一方
 layout_constraintDimensionRatio = "floatValue[width/height]"
-```
-```
+
 <ImageView
     android:layout_width="0dp"
     android:layout_height="wrap_content"
@@ -89,7 +88,7 @@ layout_constraintDimensionRatio = "floatValue[width/height]"
 
 ### Visibility behavior
 ![](/images/android/constraint_visibility.png)<br/>
-**Margins when connected to a GONE widget**
+**Margins when connected to a GONE widget**<br/>
 When a position constraint target's visibility is View.GONE, you can also indicates a different margin value to be used using the following attributes:
 * layout_goneMarginStart
 * layout_goneMarginEnd
@@ -110,7 +109,7 @@ Chains are controlled by attributes set on chain head: the head is the left-most
 给chain设置不同的chain_style后，chain的行为会有不同的表现 (默认**CHAIN_SPREAD**)
 ![](/images/android/constraint_chain_style.png)<br/>
 
-**Weighted chains**
+**Weighted chains**<br/>
 chain默认平分可用空间，*layout_constraintHorizontal_weight* 和*layout_constraintVertical_weight* 以正比的关系分配剩余空间的比例。
 
 ### 动态构造ConstraintLayout
