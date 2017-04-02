@@ -108,13 +108,12 @@ Chains are controlled by attributes set on chain head: the head is the left-most
 ![](/images/android/constraint_chain_head.png)<br/>
 
 **Chain Style**
-* layout_constraintHorizontal_chainStyle
-* layout_constraintVertical_chainStyle
+通过layout_constraintVertical_chainStyle
 给chain设置不同的chain_style后，chain的行为会有不同的表现 (默认**CHAIN_SPREAD**)
 ![](/images/android/constraint_chain_style.png)<br/>
 
 **Weighted chains**<br/>
-chain默认平分可用空间，*layout_constraintHorizontal_weight* 和*layout_constraintVertical_weight* 以正比的关系分配剩余空间的比例。
+chain默认平分可用空间，*layout_constraintHorizontal_weight* 和*layout_constraintVertical_weight* 以正比的关系分配剩余空间。
 
 ### 动态构造ConstraintLayout
 **ConstraintSet**可以动态构造ConstraintLayout，具体参见：
