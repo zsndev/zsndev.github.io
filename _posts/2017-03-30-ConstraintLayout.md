@@ -107,7 +107,7 @@ When a position constraint target's visibility is View.GONE, you can also indica
 Chains are controlled by attributes set on chain head: the head is the left-most widget for horizontal chains, and the top-most widget for vertical chains.
 ![](/images/android/constraint_chain_head.png)<br/>
 
-**Chain Style**
+**Chain Style**<br/>
 通过layout_constraintVertical_chainStyle
 给chain设置不同的chain_style后，chain的行为会有不同的表现 (默认**CHAIN_SPREAD**)
 ![](/images/android/constraint_chain_style.png)<br/>
