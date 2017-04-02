@@ -9,7 +9,7 @@ title: 关于我
 <p>
 
 我的微信公共号
-<img src="/images/qrcode.jpg" width = "140" height = "140"/>
+<img src="/images/qrcode.jpg" width = "140" height = "140" align="left"/>
 
 <!-- {% include comments.html %} -->
 
