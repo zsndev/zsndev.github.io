@@ -4,7 +4,7 @@ title: htmlentities()与urlencode()
 date: 2017-04-05
 tags: 服务器    
 ---
-之前做过一段时间php，现在工作需要，再拾起来，翻看php文档，扫到htmlentities()与urlencode()两个方法，对使用场景做下总结。
+之前做过一段时间php，现在工作需要，再拾起来，翻看php文档，看到htmlentities()与urlencode()两个方法，对使用场景做下总结。
 
 ### HttpEntity
 在html中有些字符是预留的，（比如，< 和> 会被渲染为标签，&nbsp代表空格等等）。若对这些不进行处理，可能**得不到预期的显示**，或者导致**XSS漏洞**。所以对于在html上呈现的内容，要根据情况使用htmlentities()转码，比如用户通过输入框提交的内容，都需要处理下，切记**不要信任用户输入**。
