@@ -19,8 +19,8 @@ tar -zxvf tomcat.tar.gz
 ### 设置变量
 vim /etc/profile
 在最后面添加如下内容：
-```
-# html
+```html
+# Java
 JAVA_HOME=/usr/jdk
 CLASSPATH=.:$JAVA_HOME/lib.tools.jar
 PATH=$JAVA_HOME/bin:$PATH
@@ -43,7 +43,7 @@ java -version  <br/>
 
 ### tomcat的配置
 [开源中国的tomcat配置](https://git.oschina.net/oschina/oschina-config/blob/master/tomcat/catalina.sh?dir=0&filepath=tomcat%2Fcatalina.sh&oid=016f9880e109d18cb6dbb110fba740182b4ad805&sha=9a9089bfb36334045692aaf072f6e009d4fa5211)
-```
+```html
 # 在 catalina.sh 中加入以下两行
 CATALINA_OPTS="-Djava.awt.headless=true -Djava.net.preferIPv4Stack=true"
 JAVA_OPTS="-server -Xms4096m -Xmx4096m"
@@ -68,13 +68,13 @@ java在图形处理时调用了本地的图形处理库。在利用Java作图形
 Tomcat Connector(Tomcat连接器)有bio、nio、apr三种运行模式：
  * bio(blocking I/O)，顾名思义，即阻塞式I/O操作，表示Tomcat使用的是传统的Java I/O操作(即java.io包及其子包)。
  * nio(new I/O)，是Java SE 1.4及后续版本提供的一种新的I/O操作方式(即java.nio包及其子包)。Java nio是一个基于缓冲区、并能提供非阻塞I/O操作的Java API，因此nio也被看成是non-blocking I/O的缩写。它拥有比传统I/O操作(bio)更好的并发运行性能。要让Tomcat以nio模式来运行也比较简单，我们只需要在Tomcat安装目录/conf/server.xml文件中将如下配置：
-``` html
+```html
 <Connector port="8080" protocol="HTTP/1.1"
 connectionTimeout="20000"
 redirectPort="8443" />
 ```
 中的protocol属性值改为org.apache.coyote.http11.Http11NioProtocol即可：
-``` html
+```html
 <Connector port="8080" 
 protocol="org.apache.coyote.http11.Http11NioProtocol"
 connectionTimeout="20000"
@@ -82,7 +82,7 @@ redirectPort="8443" />
 ```
 
 * apr(Apache Portable Runtime/Apache可移植运行时)，是Apache HTTP服务器的支持库。你可以简单地理解为，Tomcat将以JNI的形式调用Apache HTTP服务器的核心动态链接库来处理文件读取或网络传输操作，从而大大地提高Tomcat对静态文件的处理性能。 Tomcat apr也是在Tomcat上运行高并发应用的首选模式。如果我们的Tomcat不是在apr模式下运行，在启动Tomcat的时候，我们可以在日志信息中看到类似如下信息：
-``` html
+```html
 09-Apr-2017 09:34:10.857 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent The APR based Apache Tomcat Native library
  which allows optimal performance in production environments was not found on the java.library.path: /usr/java/packages/lib/amd64:/usr/lib64
 :/lib64:/lib:/usr/lib
@@ -90,7 +90,7 @@ redirectPort="8443" />
 
 * **区分Tomcat Connector当前的运行模式**
  如果以不同的Connector模式启动，在Tomcat的启动日志信息中一般会包含类似如下的不同内容，我们只需要根据这些信息即可判断出当前Tomcat的运行模式：
-```
+```html
 bio
 信息: Starting ProtocolHandler ["http-bio-8080"] 2013-8-6 16:17:50 org.apache.coyote.AbstractProtocol start
 nio
