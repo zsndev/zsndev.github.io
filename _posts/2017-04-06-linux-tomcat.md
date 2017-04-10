@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Linux下jdk和tomcat的安装与配置
-date: 2017-04-05
+date: 2017-04-06
 tags: 服务器    
 ---
 ### 查看环境变量
