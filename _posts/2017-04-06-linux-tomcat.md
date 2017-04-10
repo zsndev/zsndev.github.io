@@ -90,7 +90,7 @@ redirectPort="8443" />
 :/lib64:/lib:/usr/lib
 ```
 
-* 区分Tomcat Connector当前的运行模式
+* 区分Tomcat Connector当前的运行模式<br/>
  如果以不同的Connector模式启动，在Tomcat的启动日志信息中一般会包含类似如下的不同内容，我们只需要根据这些信息即可判断出当前Tomcat的运行模式：
 ```java
 bio
@@ -119,4 +119,4 @@ JAVA_OPTS="-server -Xms2048m -Xmx2048m"                   <br/>
 ### setenv.sh
 在tomcat，bin目录下，新建setenv.sh，写入下面命令，效果和上面通过修改catalina.sh一样的：<br/>
 export CATALINA_OPTS="$CATALINA_OPTS -server -Xms2G -Xmx2G"
-8g内存分了2g
+//8g内存分了2g
