@@ -83,14 +83,14 @@ connectionTimeout="20000"
 redirectPort="8443" />
 ```
 
-* apr(Apache Portable Runtime/Apache可移植运行时)，是Apache HTTP服务器的支持库。你可以简单地理解为，Tomcat将以JNI的形式调用Apache HTTP服务器的核心动态链接库来处理文件读取或网络传输操作，从而大大地提高Tomcat对静态文件的处理性能。 Tomcat apr也是在Tomcat上运行高并发应用的首选模式。如果我们的Tomcat不是在apr模式下运行，在启动Tomcat的时候，我们可以在日志信息中看到类似如下信息：
+* apr(Apache Portable Runtime)，是Apache HTTP服务器的支持库。你可以简单地理解为，Tomcat将以JNI的形式调用Apache HTTP服务器的核心动态链接库来处理文件读取或网络传输操作，从而大大地提高Tomcat对静态文件的处理性能。 Tomcat apr也是在Tomcat上运行高并发应用的首选模式。如果我们的Tomcat不是在apr模式下运行，在启动Tomcat的时候，我们可以在日志信息中看到类似如下信息：
 ```java
 09-Apr-2017 09:34:10.857 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent The APR based Apache Tomcat Native library
  which allows optimal performance in production environments was not found on the java.library.path: /usr/java/packages/lib/amd64:/usr/lib64
 :/lib64:/lib:/usr/lib
 ```
 
-* **区分Tomcat Connector当前的运行模式**
+* 区分Tomcat Connector当前的运行模式
  如果以不同的Connector模式启动，在Tomcat的启动日志信息中一般会包含类似如下的不同内容，我们只需要根据这些信息即可判断出当前Tomcat的运行模式：
 ```java
 bio
@@ -104,10 +104,10 @@ apr
 **我用的tomcat9，默认是nio模式，觉得够用了，就没有改动**
 
 ### java的配置
-JAVA_OPTS ，顾名思义，是用来设置JVM相关运行参数的变量。
-JAVA_OPTS="-server -Xms2048m -Xmx2048m"
--Xms：初始Heap大小，使用的最小内存,cpu性能高时此值应设的大一些
--Xmx：Java heap最大值，使用的最大内存。   
+JAVA_OPTS ，顾名思义，是用来设置JVM相关运行参数的变量。        <br/>
+JAVA_OPTS="-server -Xms2048m -Xmx2048m"                   <br/>
+-Xms：初始Heap大小，使用的最小内存,cpu性能高时此值应设的大一些  <br/>
+-Xmx：Java heap最大值，使用的最大内存。                      <br/>
 
 这两个值的大小一般根据需要进行设置。初始化堆的大小执行了虚拟机在启动时向系统申请的内存的大小。一般而言，这个参数不重要。但是有的应用 程序在大负载的情况下会急剧地占用更多的内存，此时这个参数就是显得非常重要，如果虚拟机启动时设置使用的内存比较小而在这种情况下有许多对象进行初始 化，虚拟机就必须重复地增加内存来满足使用。由于这种原因，我们一般把-Xms和-Xmx设为一样大，而堆的最大值受限于系统使用的物理内存。一般使用数 据量较大的应用程序会使用持久对象，内存使用有可能迅速地增长。当应用程序需要的内存超出堆的最大值时虚拟机就会提示内存溢出，并且导致应用服务崩溃。因 此一般建议堆的最大值设置为可用内存的最大值的80%。  
 
@@ -117,6 +117,6 @@ JAVA_OPTS="-server -Xms2048m -Xmx2048m"
 在重启Tomcat服务器之后，这些配置的更改才会有效
 
 ### setenv.sh
-在tomcat，bin目录下，新建setenv.sh，写入下面命令，效果和上面通过修改catalina.sh一样的
+在tomcat，bin目录下，新建setenv.sh，写入下面命令，效果和上面通过修改catalina.sh一样的：<br/>
 export CATALINA_OPTS="$CATALINA_OPTS -server -Xms2G -Xmx2G"
 8g内存分了2g
