@@ -10,7 +10,7 @@ echo $JAVA_HOME
 echo $PATH  
 
 ### 安装
-选择要安装java的位置，如将下载的jdk.tar.gz拷贝到/usr/目录下<br/>
+选择要安装java的位置，如将下载的jdk.tar.gz拷贝到/usr/local目录下<br/>
 选择要安装tomcat的位置，如将下载的tomcat.tar.gz拷贝到/usr/local目录下<br/>
 然后分别解压两个文件：      <br/>
 tar -zxvf jdk.tar.gz     <br/>
@@ -21,7 +21,7 @@ vim /etc/profile
 在最后面添加如下内容：
 ```java
 # Java
-JAVA_HOME=/usr/jdk
+JAVA_HOME=/usr/local/jdk
 CLASSPATH=.:$JAVA_HOME/lib.tools.jar
 PATH=$JAVA_HOME/bin:$PATH
 export JAVA_HOME CLASSPATH PATH
