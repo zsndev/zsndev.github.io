@@ -7,8 +7,10 @@ title: 关于我
 <p>
 平时喜欢看看youtube，逛逛技术论坛。
 <p>
+<!--
 <img src= "/images/qrcode.jpg"/>
 <img src= "/images/desc.jpg"/>
+-->
 <!-- {% include comments.html %} -->
 
 
