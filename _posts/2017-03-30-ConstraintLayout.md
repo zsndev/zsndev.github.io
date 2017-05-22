@@ -77,6 +77,8 @@ layout_constraintDimensionRatio = "width:height"
 layout_constraintDimensionRatio = "H,width:height" //H/W为需要动态调整的一方
 layout_constraintDimensionRatio = "floatValue[width/height]"
 
+constraintDimensionRatio属性默认是『宽:高』，当然，你可以指定是谁比谁，例如『宽:高』实际上等效于『W,宽:高』，也等效于『H,高:宽』。
+
 <ImageView
     android:layout_width="0dp"
     android:layout_height="wrap_content"
@@ -114,6 +116,9 @@ Chains are controlled by attributes set on chain head: the head is the left-most
 
 **Weighted chains**<br/>
 chain默认平分可用空间，*layout_constraintHorizontal_weight* 和*layout_constraintVertical_weight* 以正比的关系分配剩余空间。
+
+**等比例布局**
+在Android Studio中，选中要等比例布局的所有控件，点击右键选择『Center in Horizontal』即可完成对这些控件Chain的创建。创建好Chain后，就可以对这几个控件进行比例布局。
 
 ### 动态构造ConstraintLayout
 **ConstraintSet**可以动态构造ConstraintLayout，具体参见：
