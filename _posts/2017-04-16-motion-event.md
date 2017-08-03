@@ -4,9 +4,8 @@ title: 事件体系
 date: 2017-04-16
 tags: android    
 ---
-> ACTION_CANCEL	事件被上层拦截时触发  
 
-**Activity.dispatchTouchEvent**  
+**Activity.onTouchEvent**  
 ```
 /**
      * Called when a touch screen event was not handled by any of the views
@@ -155,10 +154,10 @@ private TouchTarget addTouchTarget(@NonNull View child, int pointerIdBits) {
         return target;
  }
 ```
-mFirstTouchTarget是dispatchTouchEvent返回true的子view；
-当viewGroup不拦截down，down由后续事件时（down时，resetTouchState会重置状态，requestDisallow无用），requestDisallow才能起作用。但若一开始down就被viewGroup拦截了，requestDisallow就没用了。
+mFirstTouchTarget是dispatchTouchEvent返回true的子view；   
+当viewGroup不拦截down，down由后续事件时（down时，resetTouchState会重置状态，requestDisallow无用），requestDisallow才能起作用。但若一开始down就被viewGroup拦截了，requestDisallow就没用了。   
 当不是Action_Down的时候，如果之前viewgroup拦截了，那么直接交给他的onTouchEvent处理。如果没有拦截，那么接下来，需要先判断是否由子viewrequestDisallowInterceptTouchEvent了，如果是，就交给子view的dispatchTouchEvent。如果不是，再判断onInterceptTouchEvent， 如果onInterceptTouchEvent返回true，则判断是否有onTouchListener（有这个就不走onTouchEvent，onClickListener在onTouchEvent中）；如果返回false，则遍历子view的dispatchTouchEvent
-遍历所有的子元素时，会先判断子元素是否能接收到点击事件（1.子元素是否在播放动画；2.Down的坐标是否落在子元素的区域内），如果满足这两个条件就会把事件传递给它处理。然后会调用dispatchTransformedTouchEvent方法，其实就是 child.dispatchTouchEvent，如果返回true，那么mFirstTouchTarget就会被赋值，并终止对子元素的遍历。
+遍历所有的子元素时，会先判断子元素是否能接收到点击事件（1.子元素是否在播放动画；2.Down的坐标是否落在子元素的区域内），如果满足这两个条件就会把事件传递给它处理。然后会调用dispatchTransformedTouchEvent方法，其实就是 child.dispatchTouchEvent，如果返回true，那么mFirstTouchTarget就会被赋值，并终止对子元素的遍历。    
 如果遍历所有的子元素后，事件都没有被处理，也就是if (mFirstTouchTarget == null)的情况，原因一般有2中情况，1：viewGroup没有子元素；2：子元素在dispatchTouchEvent中返回了false，这一般时因为在onTouchEvent中返回了false。当mFirstTouchTarget时，会调用viewGroup的 super.dispatchTouchEvent(event)，也就是当无view可用时，把viewGroup当view来使用。这也是为何当所有子view的onTouchEvent返回false时，会调用viewGroup的onTouchEvent。如果此时viewGroup.onTouchEvent返回true，那对于上一级viewGroup来说，这个viewGroup就是mFirstTouchTarget 
 
 --------------------------------------------------------------------------------
@@ -234,32 +233,33 @@ public boolean onTouchEvent(MotionEvent event) {
         return false;
     }
 ```
-当View不可用时，OnTouchListener中不会被调用。onTouchEvent会被调用，但不会执行performClick。此时onTouchEvent的返回值由该View能不能点击（包括长按和短按等点击状态）来决定。也就是说view不可用时，onTouch,onClick无用，差别只是在于返回值，即事件是否被消费，返回值由view是否可点击决定。
+当View不可用时，OnTouchListener中不会被调用。onTouchEvent会被调用，但不会执行performClick。此时onTouchEvent的返回值由该View能不能点击（包括长按和短按等点击状态）来决定。也就是说view不可用时，onTouch,onClick无用，差别只是在于返回值，即事件是否被消费，返回值由view是否可点击决定。   
 
-当view可用时，若OnTouchListener.onTouch()不为空，并返回false，则执行onTouchEvent。在onTouchEvent中，若设置了TouchDelegate，其处理逻辑与OnTouchListener类似。此时，若view可点击，则返回true消费事件，并在up时，执行performClick。若不可点击，performClick不执行，返回false不消费事件。
-View的LONG_CLICKABLE默认为false；可点击的view，CLICKABLE默认为true；不可点击的view默认为false。setOnClickListener / setOnLongClickListener会自动把CLICKABLE / LONG_CLICKABLE置为true。
+当view可用时，若OnTouchListener.onTouch()不为空，并返回false，则执行onTouchEvent。在onTouchEvent中，若设置了TouchDelegate，其处理逻辑与OnTouchListener类似。此时，若view可点击，则返回true消费事件，并在up时，执行performClick。若不可点击，performClick不执行，返回false不消费事件。   
+View的LONG_CLICKABLE默认为false；可点击的view，CLICKABLE默认为true；不可点击的view默认为false。setOnClickListener / setOnLongClickListener会自动把CLICKABLE / LONG_CLICKABLE置为true。    
 ---------------
-MOVE - UP
-当dispatchTouchEvent在进行事件分发的时候，只有ACTION_DOWN返回true，才会收到ACTION_MOVE和ACTION_UP的事件。
-如果ACTION_DOWN事件是在dispatchTouchEvent消费，那么消费ACTION_DOWN 的函数dispatchTouchEvent 也能收到 ACTION_MOVE和ACTION_UP。
-如果ACTION_DOWN事件是在onTouchEvent消费的，那么会把ACTION_MOVE或ACTION_UP事件传给该控件的onTouchEvent处理并结束传递。
+MOVE - UP   
+当dispatchTouchEvent在进行事件分发的时候，只有ACTION_DOWN返回true，才会收到ACTION_MOVE和ACTION_UP的事件。   
+如果ACTION_DOWN事件是在dispatchTouchEvent消费，那么消费ACTION_DOWN 的函数dispatchTouchEvent 也能收到 ACTION_MOVE和ACTION_UP。    
+如果ACTION_DOWN事件是在onTouchEvent消费的，那么会把ACTION_MOVE或ACTION_UP事件传给该控件的onTouchEvent处理并结束传递。    
 
 --------------------------
 例子：
-ViewGroupA  --> ViewGroupB  --> ViewC
-假设B是一个scrolling view，没有拦截DOWN事件，但它拦截了接下来的MOVE事件。
+ViewGroupA  --> ViewGroupB  --> ViewC    
+假设B是一个scrolling view，没有拦截DOWN事件，但它拦截了接下来的MOVE事件。   
 
-下面是事件被处理的顺序：  
-1. DOWN事件被依次传到A和B的onInterceptTouchEvent方法中，它们都返回的false。
-2. DOWN事件传递到C的onTouchEvent方法，返回了true。
-3. 在后续到来MOVE事件时，A的onInterceptTouchEvent方法仍然返回false。
-4. B的onInterceptTouchEvent方法收到了该MOVE事件，此时B注意到用户手指移动距离已经超过了一定的threshold（slop）。因此，B的onInterceptTouchEvent方法决定返回true，从而接管该手势（gesture）后续的处理。
-然后，这个MOVE事件将会被系统变成一个CANCEL事件，这个CANCEL事件将会传递给C的onTouchEvent方法。
-5. 现在，又来了一个MOVE事件，它被传递给A的onInterceptTouchEvent方法，A还是不关心该事件，因此onInterceptTouchEvent方法继续返回false。
-6. 此时，该MOVE事件将不会再传递给B的onInterceptTouchEvent方法，该方法一旦返回一次true，就再也不会被调用了。事实上，该MOVE以及“手势剩余部分”都将传递给B的onTouchEvent方法（除非A决定拦截“手势剩余部分”）。
-7. C再也不会收到该手势（gesture）产生的任何事件了。
+下面是事件被处理的顺序：    
+1. DOWN事件被依次传到A和B的onInterceptTouchEvent方法中，它们都返回的false。  
+2. DOWN事件传递到C的onTouchEvent方法，返回了true。   
+3. 在后续到来MOVE事件时，A的onInterceptTouchEvent方法仍然返回false。   
+4. B的onInterceptTouchEvent方法收到了该MOVE事件，此时B注意到用户手指移动距离已经超过了一定的threshold（slop）。因此，B的onInterceptTouchEvent方法决定返回true，从而接管该手势（gesture）后续的处理。   
+然后，这个MOVE事件将会被系统变成一个CANCEL事件，这个CANCEL事件将会传递给C的onTouchEvent方法。  
+5. 现在，又来了一个MOVE事件，它被传递给A的onInterceptTouchEvent方法，A还是不关心该事件，因此onInterceptTouchEvent方法继续返回false。   
+6. 此时，该MOVE事件将不会再传递给B的onInterceptTouchEvent方法，该方法一旦返回一次true，就再也不会被调用了。事实上，该MOVE以及“手势剩余部分”都将传递给B的onTouchEvent方法（除非A决定拦截“手势剩余部分”）。    
+7. C再也不会收到该手势（gesture）产生的任何事件了。     
 
-如果一个ViewGroup拦截了最初的DOWN事件，该事件仍然会传递到该ViewGroup的onTouchEvent方法中。毕竟down是必须要有人处理的。   
-另一方面，如果ViewGroup拦截了一个半路的事件（比如，MOVE），这个事件将会被系统变成一个CANCEL事件，并传递给之前处理该手势（gesture）的子View，而且不会再传递（无论是被拦截的MOVE还是系统生成的CANCEL）给ViewGroup的onTouchEvent方法。只有再到来的事件才会传递到ViewGroup的onTouchEvent方法中。
+如果一个ViewGroup拦截了最初的DOWN事件，该事件仍然会传递到该ViewGroup的onTouchEvent方法中。毕竟down是必须要有人处理的。     
+另一方面，如果ViewGroup拦截了一个半路的事件（比如，MOVE），这个事件将会被系统变成一个CANCEL事件，并传递给之前处理该手势（gesture）的子View，而且不会再传递（无论是被拦截的MOVE还是系统生成的CANCEL）给ViewGroup的onTouchEvent方法。只有再到来的事件才会传递到ViewGroup的onTouchEvent方法中。    
+ACTION_CANCEL	事件被上层拦截时触发 
 
 
